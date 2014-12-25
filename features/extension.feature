@@ -24,8 +24,13 @@ Feature: Email Protection
     When I go to "/with_no_email.html"
     Then I should not see "</script>"
 
-  Scenario: Obfuscates multiple emails
+  Scenario: Encrypts multiple emails
     Given the Server is running at "test-app"
     When I go to "/with_multiple_emails.html"
     Then I should see "<a href='#email-protection-rznvy1@rknzcyr.pbz'></a>"
     Then I should see "<a href='#email-protection-rznvy2@rknzcyr.pbz'></a>"
+
+  Scenario: Encrypts mailto link parameters
+    Given the Server is running at "test-app"
+    When I go to "/with_url_params.html"
+    Then I should see "<a href='#email-protection-rznvy@rknzcyr.pbz?fhowrpg=Grfg%20Fhowrpg&obql=Grfg%20Obql'></a>"

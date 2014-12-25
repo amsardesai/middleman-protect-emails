@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Middleman::ProtectEmails::VERSION
   spec.authors       = ['Ankit Sardesai']
   spec.email         = ['amsardesai@gmail.com']
-  spec.summary       = %q{Middleman extension for email protection and obfuscation}
-  spec.description   = %q{Middleman extension for email protection and obfuscation.}
+  spec.summary       = %q{Middleman extension for email link protection and obfuscation}
+  spec.description   = %q{Middleman extension for email link protection and obfuscation.}
   spec.homepage      = ''
   spec.license       = 'MIT'
   spec.files         = `git ls-files -z`.split("\x0")

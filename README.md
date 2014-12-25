@@ -12,9 +12,9 @@ Add this line to your Middleman application's Gemfile:
 gem 'middleman-protect-emails'
 ```
 
-And then execute:
+And then run:
 
-  $ bundle
+    $ bundle
 
 ## Configuration
 

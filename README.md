@@ -20,23 +20,15 @@ And then run:
 
     $ bundle
 
-## Configuration
+## Usage
 
-Implementing this gem is as simple as adding the following line to your project's `config.rb` file:
+Using this gem is as simple as adding the following line to your project's `config.rb` file:
 
 ```ruby
-# config.rb
 activate :protect_emails
 ```
 
-You can also add it to your build-specific configuration:
-
-```ruby
-# config.rb
-configure :build do
-  activate :protect_emails
-end
-```
+And that's it! This will now protect all `mailto` links in your Middleman project. 
 
 ## Contributing
 

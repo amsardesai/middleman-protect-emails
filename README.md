@@ -30,6 +30,22 @@ activate :protect_emails
 
 And that's it! This will now protect all `mailto` links in your Middleman project. 
 
+### How it Works
+
+If the middleware detects a `mailto` link on your page, it will automatically replace the link with an encrypted hash and insert a small script at the end of the page for the browser to decode it on page load. For example, if the following code was on one of your pages:
+
+```html
+<a href='mailto:hello@example.com'>Link</a>
+```
+
+It would automatically be replaced with:
+
+```html
+<a href='#email-protection-uryyb@rknzcyr.pbz'>Link</a>
+```
+
+This extension also encrypts link parameters (ex. `mailto:hello@example.com?subject=Some%20Subject`). 
+
 ## Contributing
 
 1. Fork it

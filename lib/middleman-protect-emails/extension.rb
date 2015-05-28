@@ -41,7 +41,11 @@ class Middleman::ProtectEmailsExtension < ::Middleman::Extension
 
       # Replaces mailto links with ROT13 equivalent
       # TODO: Don't replace plaintext mailto links
-      new_content = body.gsub /mailto:([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}(\?[A-Z0-9_\-&=%# ]*)?)/i do
+      invalid_character = '\s"\'>'
+      email_username = "[^@#{invalid_character}]+"
+      email_domain = "[^?#{invalid_character}]+"
+      email_param = "[^&#{invalid_character}]+"
+      new_content = body.gsub /mailto:(#{email_username}@#{email_domain}(\?#{email_param}(\&#{email_param})*)?)/is do
         replaced_email = true
         email = $1.tr 'A-Za-z','N-ZA-Mn-za-m'
         "#email-protection-#{email}"

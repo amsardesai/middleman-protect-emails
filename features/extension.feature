@@ -34,3 +34,13 @@ Feature: Email Protection
     Given the Server is running at "test-app"
     When I go to "/with_url_params.html"
     Then I should see "<a href='#email-protection-rznvy@rknzcyr.pbz?fhowrpg=Grfg%20Fhowrpg&obql=Grfg%20Obql'></a>"
+
+  Scenario: Encrypts mailto link complex parameters
+    Given the Server is running at "test-app"
+    When I go to "/with_complex_url_params.html"
+    Then I should see "<a href='#email-protection-rznvy@ybpnyubfg'>localhost domain</a>"
+    Then I should see "<a href='#email-protection-rznvy@rknzcyr.pbz?fhowrpg=Fhowrpg+jvgu+cyhf+fvtaf'>plus sign in subject</a>"
+    Then I should see "<a href='#email-protection-rznvy@rknzcyr.pbz?fhowrpg=Fhowrpg%20jvgu%20fcnprf'>spaces in subject</a>"
+    Then I should see "<a href='#email-protection-rznvy@rknzcyr.pbz?fhowrpg=Grfg+Fhowrpg&pp=rznvy2@rknzcyr.pbz'>cc param</a>"
+    Then I should see "<a href='#email-protection-zl-p0z.cy3k_rznvy@rk-nzcyr.pb.hx?fhowrpg=Grfg+Fhowrpg&obql=Grfg%20Obql&pp=rznvy@rknzcyr.pbz'>crazy case</a>"
+    Then I should see "<a href='mailto:email'>@example.com hacker</a>"

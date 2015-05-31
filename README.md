@@ -28,7 +28,7 @@ Using this gem is as simple as adding the following line to your project's `conf
 activate :protect_emails
 ```
 
-And that's it! This will now protect all `mailto` links in your Middleman project. 
+And that's it! This will now protect all `mailto` links in your Middleman project.
 
 ### How it Works
 
@@ -44,7 +44,7 @@ It would automatically be replaced with:
 <a href='#email-protection-uryyb@rknzcyr.pbz'>Link</a>
 ```
 
-This extension also encrypts link parameters (ex. `mailto:hello@example.com?subject=Some%20Subject`). 
+This extension also encrypts link parameters (ex. `mailto:hello@example.com?subject=Some%20Subject`).
 
 ## Contributing
 

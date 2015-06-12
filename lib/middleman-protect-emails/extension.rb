@@ -45,7 +45,7 @@ class Middleman::ProtectEmailsExtension < ::Middleman::Extension
       email_username = "[^@#{invalid_character}]+"
       email_domain = "[^?#{invalid_character}]+"
       email_param = "[^&#{invalid_character}]+"
-      new_content = body.gsub /mailto:(#{email_username}@#{email_domain}(\?#{email_param}(\&#{email_param})*)?)/is do
+      new_content = body.gsub /mailto:(#{email_username}@#{email_domain}(\?#{email_param}(\&#{email_param})*)?)/i do
         replaced_email = true
         email = $1.tr 'A-Za-z','N-ZA-Mn-za-m'
         "#email-protection-#{email}"

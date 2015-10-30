@@ -53,3 +53,7 @@ This extension also encrypts link parameters (ex. `mailto:hello@example.com?subj
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a [new pull request](../../pull/new/master)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/amsardesai/middleman-protect-emails/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+

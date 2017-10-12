@@ -15,14 +15,23 @@ Feature: Email Protection
     When I go to "/with_body.html"
     Then I should see:
     """
-    </script>
-    </body>
+    </script></body>
     """
 
   Scenario: Does not insert script if there is no email on the page
     Given the Server is running at "test-app"
     When I go to "/with_no_email.html"
     Then I should not see "</script>"
+    
+  Scenario: Does not insert script if there is an email on the page but not as a link
+    Given the Server is running at "test-app"
+    When I go to "/with_email_as_text.html"
+    Then I should not see "</script>"
+    
+  Scenario: Shows obfuscated email text in link
+    Given the Server is running at "test-app"
+    When I go to "/with_email_in_link.html"
+    Then I should see "<a href='#email-protection-rznvy@rknzcyr.pbz'>our email <span>email@email</span></a>"
 
   Scenario: Encrypts multiple emails
     Given the Server is running at "test-app"

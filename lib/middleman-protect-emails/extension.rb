@@ -2,18 +2,21 @@ require 'middleman-core/util'
 
 class Middleman::ProtectEmailsExtension < ::Middleman::Extension
 
+  option :prefix, '#email-protection-', 'Prefix to use for encoded links'
+
   def initialize(app, options_hash={}, &block)
     super
   end
 
   def after_configuration
-    app.use Middleware, middleman_app: app
+    app.use Middleware, middleman_app: app, options: options
   end
 
   class Middleware
     def initialize(app, options = {})
       @rack_app = app
       @middleman_app = options[:middleman_app]
+      @options = options[:options]
     end
 
     def call(env)
@@ -40,15 +43,23 @@ class Middleman::ProtectEmailsExtension < ::Middleman::Extension
       replaced_email = false
 
       # Replaces mailto links with ROT13 equivalent
-      # TODO: Don't replace plaintext mailto links
       invalid_character = '\s"\'>'
       email_username = "[^@#{invalid_character}]+"
       email_domain = "[^?#{invalid_character}]+"
       email_param = "[^&#{invalid_character}]+"
-      new_content = body.gsub /mailto:(#{email_username}@#{email_domain}(\?#{email_param}(\&#{email_param})*)?)/i do
+      email = "(?<email>(?<email_username>#{email_username})@#{email_domain})(?<email_params>\\?#{email_param}(\\&#{email_param})*)?"
+      new_content = body.gsub /<a(?<tag_before>[^>]*)mailto:(?<mailto>#{email})(?<tag_after>[^>]*)>(?<text>.*?)<\/a>/i do
         replaced_email = true
-        email = $1.tr 'A-Za-z','N-ZA-Mn-za-m'
-        "#email-protection-#{email}"
+        mailto = Regexp.last_match(:mailto)
+        email = Regexp.last_match(:email)
+        text = Regexp.last_match(:text)
+        email_username = Regexp.last_match(:email_username)
+        tag_before = Regexp.last_match(:tag_before)
+        tag_after = Regexp.last_match(:tag_after)
+
+        text = text.gsub(email, "#{email_username}@email")
+        mailto = mailto.tr 'A-Za-z','N-ZA-Mn-za-m'
+        "<a#{tag_before}#{@options.prefix}#{mailto}#{tag_after}>#{text}</a>"
       end
 
       # Don't do anything else if there are no emails on the page
@@ -57,6 +68,7 @@ class Middleman::ProtectEmailsExtension < ::Middleman::Extension
       # Reads decoding script
       file = File.join(File.dirname(__FILE__), 'rot13_script.html')
       script_content = File.read file
+      script_content = script_content.gsub("#email-protection-", @options.prefix)
 
       # Appends decoding script at end of body or end of page
       if new_content =~ /<\/body>/i

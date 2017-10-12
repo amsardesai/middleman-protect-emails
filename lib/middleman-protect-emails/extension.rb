@@ -3,6 +3,7 @@ require 'middleman-core/util'
 class Middleman::ProtectEmailsExtension < ::Middleman::Extension
 
   option :prefix, '#email-protection-', 'Prefix to use for encoded links'
+  option :text_replacement, 'our contact form', 'Replacement for text links'
 
   def initialize(app, options_hash={}, &block)
     super
@@ -57,7 +58,7 @@ class Middleman::ProtectEmailsExtension < ::Middleman::Extension
         tag_before = Regexp.last_match(:tag_before)
         tag_after = Regexp.last_match(:tag_after)
 
-        text = text.gsub(email, "#{email_username}@email")
+        text = text.gsub(email, @options.text_replacement)
         mailto = mailto.tr 'A-Za-z','N-ZA-Mn-za-m'
         "<a#{tag_before}#{@options.prefix}#{mailto}#{tag_after}>#{text}</a>"
       end
@@ -69,6 +70,7 @@ class Middleman::ProtectEmailsExtension < ::Middleman::Extension
       file = File.join(File.dirname(__FILE__), 'rot13_script.html')
       script_content = File.read file
       script_content = script_content.gsub("#email-protection-", @options.prefix)
+      script_content = script_content.gsub("@email", @options.text_replacement)
 
       # Appends decoding script at end of body or end of page
       if new_content =~ /<\/body>/i
